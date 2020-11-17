@@ -14,12 +14,13 @@ class DGP:
         self._test_y = None
 
     def generate(self, usage='regression'):
-        features, labels = self._generate()
-
-        self._features = features
         self._usage = usage
+
+        features, labels = self._generate()
+        self._features = features
         self._labels = self._get_labels(labels)
 
+    def _get_labels(self, labels):
         if self.usage == 'regression':
             return labels
 
