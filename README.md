@@ -5,5 +5,5 @@ A library of Machine Learning for Python only based on numpy
 
 `Classification`
 
-
+`Model Evaluation`
 
