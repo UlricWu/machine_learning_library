@@ -1,9 +1,9 @@
 from numpy import linalg
 import numpy as np
-
+from loguru import logger
 
 class Regression:
-    def __init__(self, intercept=None):
+    def __init__(self, intercept=True):
         self.beta = None
         self.intercept = intercept
 
@@ -79,4 +79,7 @@ class GradientDescent(Regression):
             if np.abs(update).sum() < self._threshold:
                 self.beta = beta
                 return
-        raise ValueError('Gradient did not converge')
+        logger.warning('Gradient did not converge with learning rate {}'.format(self._learning_rate))
+
+        return
+
