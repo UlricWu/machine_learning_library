@@ -2,7 +2,7 @@ import numpy as np
 
 
 class DGP:
-    def __init__(self, observations, dimensions, random_state=1024):
+    def __init__(self, observations=100000, dimensions=10, random_state=1024):
         self._observations = observations
         self._dimensions = dimensions
         self._random_state = random_state
