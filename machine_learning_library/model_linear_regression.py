@@ -18,6 +18,7 @@ class Regression:
 
     def _add_bias(self, features):
         if self.intercept:
+
             ones = np.ones((len(features), 1))
             return np.hstack([ones, features])
 
