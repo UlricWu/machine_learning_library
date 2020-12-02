@@ -14,18 +14,19 @@ def confusion_matirx(test, pred):
 
     ## index of each class of true labels
     for index, label in enumerate(test):
-        index_true[label].append(index)
+
+        index_true[label[0]].append(index)
 
     counts = []
     ## groupby classes of true labels, count the numbers for each class in predict
     for group in groups:
         count = {i: 0 for i in groups}
         for label in pred[index_true[group]]:
-            count[label] += 1
+            count[label[0]] += 1
         counts.append(count)
 
     matirx = pd.DataFrame(counts)
-    columns_names = ['predict ' + str(group) for group in groups]
-    matirx.columns = columns_names
+
+    matirx.columns = ['predict ' + str(group) for group in groups]
 
     return matirx

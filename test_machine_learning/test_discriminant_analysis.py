@@ -14,7 +14,7 @@ def test_lda():
     model.fit(train_x, train_y)
     pred = model.predict(test_x)
 
-    ## TODO: add evaluation
+    confusion_matirx(test_y, pred)
 
 def test_qda():
 

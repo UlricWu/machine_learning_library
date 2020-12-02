@@ -11,7 +11,7 @@ class LogsitcRegression(Classification):
         self.beta= None
 
 
-    def _fit(self, features, labels, method='MLE'):
+    def _fit(self, features, labels):
         beta = np.ones((features.shape[1], 1))
 
         for _ in range(self.epochs):
@@ -20,7 +20,7 @@ class LogsitcRegression(Classification):
             jaco = jacobia(features, labels, p)
             hess = hession(features, p)
 
-            update = np.linalg.inv(jaco)@hess
+            update = np.linalg.inv(hess)@jaco
 
             if self._check_converge(update):
                 self.beta = beta
@@ -30,11 +30,11 @@ class LogsitcRegression(Classification):
         self.beta=beta
 
     def _predict(self, features):
-        return sigmoid(features@self.beta)
-
+        prob =  sigmoid(features@self.beta)
+        return np.where(prob>0.5, 1, 0)
 
     def _check_converge(self, value):
-        if value <= self.threshold:
+        if np.sum(np.abs(value)) <= self.threshold:
             return True
 
         return False
@@ -43,9 +43,11 @@ class LogsitcRegression(Classification):
 
 def jacobia(feature, label, p):
     return feature.T@(label - p)
-def hession(feature, beta):
-    weight = np.diag(beta*(1-beta))
-    return feature.T@weight@weight
+
+def hession(feature, sigmoid):
+
+    w = np.diagflat(sigmoid * (1 - sigmoid))
+    return feature.T @ w @ feature
 
 def sigmoid(x):
     return 1/(1 + np.exp(-x))
