@@ -12,6 +12,7 @@ class LogsitcRegression(Classification):
 
 
     def _fit(self, features, labels):
+        features = _add_bias(features)
         beta = np.ones((features.shape[1], 1))
 
         for _ in range(self.epochs):
@@ -30,6 +31,7 @@ class LogsitcRegression(Classification):
         self.beta=beta
 
     def _predict(self, features):
+        features = _add_bias(features)
         prob =  sigmoid(features@self.beta)
         return np.where(prob>0.5, 1, 0)
 
@@ -39,7 +41,9 @@ class LogsitcRegression(Classification):
 
         return False
 
-
+def _add_bias(features):
+    ones = np.ones((len(features), 1))
+    return np.concatenate([ones, features], axis=1)
 
 def jacobia(feature, label, p):
     return feature.T@(label - p)

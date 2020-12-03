@@ -15,4 +15,5 @@ def test_one_start():
 
     pred = model.predict(test_x)
 
-    print(confusion_matirx(test_y, pred))
+    assert confusion_matirx(test_y, pred).values.tolist() == [[103, 51],
+                                                              [35, 111]]
