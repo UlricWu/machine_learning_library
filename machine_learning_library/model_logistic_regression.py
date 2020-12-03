@@ -12,14 +12,14 @@ class LogsitcRegression(Classification):
 
 
     def _fit(self, features, labels):
-        features = _add_bias(features)
+        features = self._add_bias(features)
         beta = np.ones((features.shape[1], 1))
 
         for _ in range(self.epochs):
             x = features@beta
-            p = sigmoid(x)
-            jaco = jacobia(features, labels, p)
-            hess = hession(features, p)
+            p = self._sigmoid(x)
+            jaco = self._jacobia(features, labels, p)
+            hess = self._hession(features, p)
 
             update = np.linalg.inv(hess)@jaco
 
@@ -31,8 +31,8 @@ class LogsitcRegression(Classification):
         self._beta=beta
 
     def _predict(self, features):
-        features = _add_bias(features)
-        prob =  sigmoid(features @ self._beta)
+        features = self._add_bias(features)
+        prob =  self._sigmoid(features @ self._beta)
         return np.where(prob>0.5, 1, 0)
 
     def _check_converge(self, value):
@@ -41,17 +41,21 @@ class LogsitcRegression(Classification):
 
         return False
 
-def _add_bias(features):
-    ones = np.ones((len(features), 1))
-    return np.concatenate([ones, features], axis=1)
+    @staticmethod
+    def _add_bias(features):
+        ones = np.ones((len(features), 1))
+        return np.concatenate([ones, features], axis=1)
 
-def jacobia(feature, label, p):
-    return feature.T@(label - p)
+    @staticmethod
+    def _jacobia(feature, label, p):
+        return feature.T@(label - p)
 
-def hession(feature, sigmoid):
+    @staticmethod
+    def _hession(feature, sigmoid):
 
-    w = np.diagflat(sigmoid * (1 - sigmoid))
-    return feature.T @ w @ feature
+        w = np.diagflat(sigmoid * (1 - sigmoid))
+        return feature.T @ w @ feature
 
-def sigmoid(x):
-    return 1/(1 + np.exp(-x))
+    @staticmethod
+    def _sigmoid(x):
+        return 1/(1 + np.exp(-x))
