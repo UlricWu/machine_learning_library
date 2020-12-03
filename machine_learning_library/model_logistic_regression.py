@@ -8,7 +8,7 @@ class LogsitcRegression(Classification):
         self.learning_rate = learning_rate
         self.threshold = threshold
         self.epochs = epochs
-        self.beta= None
+        self._beta= None
 
 
     def _fit(self, features, labels):
@@ -24,15 +24,15 @@ class LogsitcRegression(Classification):
             update = np.linalg.inv(hess)@jaco
 
             if self._check_converge(update):
-                self.beta = beta
+                self._beta = beta
                 return
             beta += update
 
-        self.beta=beta
+        self._beta=beta
 
     def _predict(self, features):
         features = _add_bias(features)
-        prob =  sigmoid(features@self.beta)
+        prob =  sigmoid(features @ self._beta)
         return np.where(prob>0.5, 1, 0)
 
     def _check_converge(self, value):
