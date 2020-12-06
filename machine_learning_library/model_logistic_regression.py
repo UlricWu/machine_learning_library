@@ -45,10 +45,6 @@ class LogsitcRegression(Classification):
 
         return False
 
-    @staticmethod
-    def _add_bias(features):
-        ones = np.ones((len(features), 1))
-        return np.concatenate([ones, features], axis=1)
 
     @staticmethod
     def _jacobia(feature, label, p):

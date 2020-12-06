@@ -17,6 +17,12 @@ class Classification:
     def _predict(self, features):
         return NotImplementedError
 
+    @staticmethod
+    def _add_bias(features):
+
+        ones = np.ones((len(features), 1))
+        return np.hstack([ones, features])
+
 
 class LDA(Classification):
 
