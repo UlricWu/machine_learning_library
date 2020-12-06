@@ -18,6 +18,7 @@ def test_mle_one_start():
     assert confusion_matirx(test_y, pred).values.tolist() == [[103, 51],
                                                               [35, 111]]
 
+
 def test_gd_one_start():
     observations, dimensions = 1000, 5
     data = DGP(observations, dimensions)
